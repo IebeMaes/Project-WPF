@@ -1,0 +1,1 @@
+﻿select Voertuig.voertuigid, Voertuig.kleur, Voertuig.merk, Voertuig.aantalPersonen, Soort.naam, Locatie.straat, Locatie.huisnummer, Locatie.gemeente, Locatie.postcode from Voertuig  JOIN Soort on Voertuig.soortid = Soort.soortid Left JOIN  Locatie on Voertuig.locatieid = Locatie.locatieid where Soort.naam = 'auto';

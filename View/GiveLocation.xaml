@@ -1,0 +1,113 @@
+﻿<Page x:Class="Project.View.GiveLocation"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Project.View"
+      xmlns:viewmodel="clr-namespace:Project.ViewModel"
+      DataContext="{Binding Source={StaticResource mainViewModelLocator}, Path=GiveLocationViewModel}"
+      mc:Ignorable="d" 
+      Height="700" Width="1000" 
+      Title="Home"
+      ShowsNavigationUI="False"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <Page.Resources>
+
+        <Style x:Key="headerstyle" TargetType="DataGridColumnHeader">
+            <Setter Property="FontSize" Value="18" />
+        </Style>
+
+    </Page.Resources>
+    <materialDesign:DrawerHost  >
+
+        <Grid >
+            <Grid Height="70" VerticalAlignment="Top" Background="#424242">
+                <TextBlock Text="WPF Project" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="35" FontFamily="Champagne &amp; Limousines"  />
+                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding ShutDownCommand}">
+                    <materialDesign:PackIcon Kind="Power" Height="30" Width="40" Foreground="Red"/>
+                </Button>
+                <Button HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Width="60" Command="{Binding GoBackCommand}">
+                    <materialDesign:PackIcon Kind="ArrowLeftBold" Height="24" Width="33"/>
+                </Button>
+            </Grid>
+            <Grid Grid.RowSpan="2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70*"/>
+                    <RowDefinition Height="61*"/>
+                    <RowDefinition Height="30*"/>
+                    <RowDefinition Height="412*"/>
+                    <RowDefinition Height="78*"/>
+                    <RowDefinition Height="49*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="35" Margin="432,22,431,27" Height="42" Grid.RowSpan="2" Width="137">
+                Locaties</TextBlock>
+                <TextBlock Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="16" Margin="254,7" Width="492">Gelieve hier eerst uw huidige locatie in te geven als deze nog niet voorkomt in de lijst.</TextBlock>
+
+                <DataGrid Grid.Row="3" HorizontalAlignment="Center" Width="742"  ItemsSource="{Binding Locaties}" CanUserSortColumns="True" AutoGenerateColumns="False" materialDesign:DataGridAssist.CellPadding="13 8 8 8"
+            materialDesign:DataGridAssist.ColumnHeaderPadding="8" FontSize="30" CanUserAddRows="False" SelectionMode="Single" SelectedItem="{Binding CurrentLocatie}" Margin="168,0,90,0">
+                    <DataGrid.Columns >
+                        <materialDesign:DataGridTextColumn Binding="{Binding Straat}" Width="auto" Header="Straat" HeaderStyle="{StaticResource headerstyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+
+                        <materialDesign:DataGridTextColumn Binding="{Binding Huisnummer}" Width="auto" Header="Huisnummer" HeaderStyle="{StaticResource headerstyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+
+                        <materialDesign:DataGridTextColumn Binding="{Binding Gemeente}" Width="auto" Header="Gemeente" HeaderStyle="{StaticResource headerstyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+                        <materialDesign:DataGridTextColumn Binding="{Binding Postcode}" Width="auto" Header="Postcode" HeaderStyle="{StaticResource headerstyle}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Button Grid.Row="4" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                ToolTip="toevoegen" Margin="426,32,424,15" Height="Auto" >Toevoegen</Button>
+                <Button Grid.Row="4"  Margin="707,32,143,15" Command="{Binding VerwijderenCommand}"
+                ToolTip="toevoegen" Height="Auto" >Verwijderen</Button>
+                <Button Grid.Row="4" Style="{StaticResource MaterialDesignRaisedButton}"  Margin="158,32,692,15" Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                ToolTip="toevoegen" Height="Auto" >Bewerken</Button>
+                <Button Grid.Row="5" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding GoUitlenen}" Width="400" HorizontalAlignment="Left" Margin="50,9,0,8">Locatie staat al in de lijst (verder naar uitlenen)</Button>
+                <Button Grid.Row="5" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding GoReturn}" Width="400" HorizontalAlignment="Right" Margin="0,9,50,8">Locatie staat al in de lijst (verder naar return)</Button>
+            </Grid>
+        </Grid>
+        <materialDesign:DrawerHost.RightDrawerContent >
+            <StackPanel Width="412">
+                <TextBlock Margin="4" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignHeadline5TextBlock}">
+                    Voertuig toevoegen/bewerken
+                </TextBlock>
+                <Button Command="{Binding Leegmaken}">Leegmaken</Button>
+                <StackPanel Grid.Row="1" Grid.Column="1"  >
+                    <Label HorizontalAlignment="Center" FontSize="20">Straat</Label>
+                    <TextBox Margin="10,0,10,10" Name="Merk"
+                     Text="{Binding CurrentLocatie.Straat}" />
+                    <Label HorizontalAlignment="Center" FontSize="20">Huisnummer</Label>
+                    <TextBox  Margin="10,0,10,10" Name="Kleur"
+                      Text="{Binding CurrentLocatie.Huisnummer}" />
+                    <Label HorizontalAlignment="Center" FontSize="20">Gemeente</Label>
+                    <TextBox  Margin="10, 0,10,10" Name="Aantal"
+                      Text="{Binding CurrentLocatie.Gemeente}" />
+                    <Label HorizontalAlignment="Center" FontSize="20">Postcode</Label>
+                    <TextBox  Margin="10, 0,10,10" Name="Nummerplaat"
+                      Text="{Binding CurrentLocatie.Postcode }" />
+
+                    <Button Margin="10,0,10,10" Content="Toevoegen en verder naar uitlenen"
+                    Command="{Binding ToevoegenCommand}" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                    <Button Margin="10,0,10,10" Content="Toevoegen en verder naar return"
+                    Command="{Binding ToevoegenReturnCommand}" Style="{StaticResource MaterialDesignRaisedAccentButton}" />
+                    
+                    <Button Margin="10, 0, 10, 10" Content="Bewerking opslaan" Command="{Binding BewerkenCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:DrawerHost.RightDrawerContent>
+    </materialDesign:DrawerHost>
+
+
+
+</Page>
